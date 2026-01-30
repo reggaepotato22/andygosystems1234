@@ -9,11 +9,18 @@ interface CaseStudiesProps {
 
 const CaseStudies: React.FC<CaseStudiesProps> = ({ onProjectClick }) => {
   const { projects } = useData();
+  const [activeCategory, setActiveCategory] = React.useState('All');
+
+  const categories = ['All', 'Apps', 'Websites', 'Web Applications', 'UI/UX', 'Others'];
+
+  const filteredProjects = activeCategory === 'All' 
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
 
   return (
     <section id="work" className="py-24 bg-white dark:bg-charcoal dim:bg-charcoal-light text-charcoal dark:text-white transition-colors duration-500">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
             <motion.span 
               initial={{ opacity: 0, x: -20 }}
@@ -35,14 +42,35 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ onProjectClick }) => {
           </a>
         </div>
 
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap gap-2 mb-12">
+          {categories.map((category, index) => (
+            <motion.button
+              key={category}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              onClick={() => setActiveCategory(category)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeCategory === category
+                  ? 'bg-amber text-charcoal font-bold'
+                  : 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10'
+              }`}
+            >
+              {category}
+            </motion.button>
+          ))}
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8">
           {filteredProjects.map((project, index) => (
             <motion.div 
+              layout
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.5 }}
               onClick={() => onProjectClick(project)}
               className={`group relative h-[500px] rounded-3xl overflow-hidden cursor-pointer ${
                 index % 3 === 0 ? 'md:col-span-2' : ''
