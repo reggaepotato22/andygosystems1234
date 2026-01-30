@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #f9fafb;
+    --bg-secondary: #ffffff;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --accent: #FFB800;
+  }
+
+  .dark {
+    --bg-primary: #0D0D0D;
+    --bg-secondary: #1A1A1A;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+  }
+
+  .dim {
+    --bg-primary: #1E293B;
+    --bg-secondary: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+  }
+
+  .dim body {
+    color: var(--text-primary);
+  }
+
+  html {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  body {
+    @apply antialiased font-sans transition-colors duration-500;
+  }
+}
+
+/* Custom scrollbar for dark mode feeling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFB800;
+}
