@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Target, Lightbulb, Zap, Clock, Shield } from 'lucide-react';
+import { Target, Lightbulb, Zap, Shield } from 'lucide-react';
 
 const WhyUs: React.FC = () => {
   const container = {
