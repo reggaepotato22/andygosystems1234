@@ -9,6 +9,7 @@ export interface Project {
   tags: string[];
   client?: string;
   date?: string;
+  liveUrl?: string;
 }
 
 export interface Inquiry {
@@ -36,69 +37,20 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 const initialProjects: Project[] = [
   {
     id: '1',
-    title: "FinTech Analytics Dashboard",
-    category: "Web Application",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2070",
-    description: "Real-time financial data visualization for a global banking client.",
-    tags: ["React", "D3.js", "Node.js"],
-    client: "Global Bank Corp",
-    date: "Oct 2023"
-  },
-  {
-    id: '2',
-    title: "HealthConnect Portal",
-    category: "Apps",
+    title: "Veterinarians with a Mission Programme",
+    category: "Web Applications",
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2070",
-    description: "HIPAA-compliant patient portal connecting 50k+ users daily.",
-    tags: ["React Native", "AWS", "TypeScript"],
-    client: "HealthPlus",
-    date: "Dec 2023"
-  },
-  {
-    id: '3',
-    title: "EcoSmart Home System",
-    category: "Websites",
-    image: "https://images.unsplash.com/photo-1558002038-109177381792?auto=format&fit=crop&q=80&w=2070",
-    description: "Smart home automation interface with energy consumption tracking.",
-    tags: ["Flutter", "Firebase", "IoT"],
-    client: "EcoLife",
-    date: "Jan 2024"
-  },
-  {
-    id: '4',
-    title: "LogiChain Supply Platform",
-    category: "UI/UX",
-    image: "https://images.unsplash.com/photo-1494412574643-35d324698427?auto=format&fit=crop&q=80&w=2074",
-    description: "Blockchain-based supply chain management system for logistics giants.",
-    tags: ["Figma", "Design System", "Prototyping"],
-    client: "LogiTech",
-    date: "Feb 2024"
-  },
-  {
-    id: '5',
-    title: "Urban Mobility App",
-    category: "Apps",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=2070",
-    description: "City-wide public transport tracking and ticketing solution.",
-    tags: ["Flutter", "Google Maps API", "Stripe"],
-    client: "MetroCity",
-    date: "Mar 2024"
-  },
-  {
-    id: '6',
-    title: "Corporate Identity Redesign",
-    category: "Others",
-    image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=2000",
-    description: "Complete brand overhaul including logo, stationery, and guidelines.",
-    tags: ["Branding", "Illustrator", "Print"],
-    client: "NexGen Corp",
-    date: "Apr 2024"
+    description: "Veterinarians with a Mission Programme refreshed website. A platform for veterinary professionals to collaborate and manage missions.",
+    tags: ["Vite", "TypeScript", "React", "shadcn-ui", "Tailwind CSS"],
+    client: "Veterinarians with a Mission programme",
+    date: "September 2025",
+    liveUrl: "https://kenyavetsemission.org"
   }
 ];
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>(() => {
-    const saved = localStorage.getItem('andygo_projects');
+    const saved = localStorage.getItem('andygo_projects_v2');
     return saved ? JSON.parse(saved) : initialProjects;
   });
 
@@ -108,7 +60,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   useEffect(() => {
-    localStorage.setItem('andygo_projects', JSON.stringify(projects));
+    localStorage.setItem('andygo_projects_v2', JSON.stringify(projects));
   }, [projects]);
 
   useEffect(() => {

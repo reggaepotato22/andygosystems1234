@@ -45,7 +45,8 @@ const AdminDashboard: React.FC = () => {
       description: '',
       tags: [],
       client: '',
-      date: ''
+      date: '',
+      liveUrl: ''
     });
   };
 

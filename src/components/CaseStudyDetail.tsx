@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, ArrowRight } from 'lucide-react';
 import Footer from './Footer';
@@ -14,10 +14,27 @@ interface CaseStudyDetailProps {
     tags: string[];
     client?: string;
     date?: string;
+    liveUrl?: string;
   } | null;
 }
 
 const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ isOpen, onClose, project }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!project) return null;
 
   return (
@@ -141,9 +158,23 @@ const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ isOpen, onClose, proj
                 </div>
               </div>
 
-              <button className="w-full mt-8 py-4 bg-amber text-charcoal font-bold rounded-xl hover:bg-amber-dark transition-colors flex items-center justify-center gap-2">
-                Visit Live Site <ArrowRight className="w-5 h-5" />
-              </button>
+              {project.liveUrl ? (
+                <a 
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full mt-8 py-4 bg-amber text-charcoal font-bold rounded-xl hover:bg-amber-dark transition-colors flex items-center justify-center gap-2"
+                >
+                  Visit Live Site <ArrowRight className="w-5 h-5" />
+                </a>
+              ) : (
+                <button 
+                  disabled
+                  className="w-full mt-8 py-4 bg-amber text-charcoal font-bold rounded-xl opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  Visit Live Site <ArrowRight className="w-5 h-5" />
+                </button>
+              )}
             </motion.div>
           </div>
         </div>

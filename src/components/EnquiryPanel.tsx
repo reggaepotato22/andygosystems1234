@@ -99,7 +99,7 @@ const EnquiryPanel: React.FC<EnquiryPanelProps> = ({ isOpen, onClose }) => {
                       className={`px-4 py-2 rounded-lg text-sm border transition-colors text-left ${
                         formData.type === type
                           ? 'bg-amber/10 border-amber text-amber'
-                          : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-amber hover:text-amber'
+                          : 'border-gray-200 dark:border-white/10 text-black-600 dark:text-black-400 hover:border-amber hover:text-amber'
                       }`}
                     >
                       {type}
