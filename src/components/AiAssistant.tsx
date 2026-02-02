@@ -42,6 +42,33 @@ const AiAssistant: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const getBotResponse = (text: string): string => {
+    const lowerText = text.toLowerCase();
+    
+    // Contact / WhatsApp / Phone
+    if (lowerText.match(/number|phone|call|whatsapp|contact|reach/)) {
+      return "You can reach us directly on WhatsApp or call us at +254 757700391. You can chat with us here: https://wa.me/254757700391";
+    }
+    
+    // Services / What do you do / Help
+    if (lowerText.match(/service|what.*do|help|offer|can.*do|work/)) {
+      return "We specialize in Web Applications, Mobile Apps, UI/UX Design, and Custom Software Solutions. Whether you need a stunning website or a complex system, we've got you covered!";
+    }
+
+    // Pricing / Cost
+    if (lowerText.match(/price|cost|quote|much/)) {
+      return "Our pricing is project-dependent as we offer custom solutions tailored to your needs. Please send us your project details for a free quote!";
+    }
+
+    // Location
+    if (lowerText.match(/location|where.*you|based/)) {
+      return "We are based in Kenya but work with clients globally as a remote-first team.";
+    }
+
+    // Default
+    return "Thanks for reaching out! Our team has received your message and will get back to you shortly. Is there anything else you'd like to know? You can also contact us at +254 757700391.";
+  };
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
@@ -56,11 +83,12 @@ const AiAssistant: React.FC = () => {
     setMessages(prev => [...prev, userMsg]);
     setInputText('');
 
-    // Simulate bot response and save inquiry
+    // Simulate bot response
     setTimeout(() => {
+      const responseText = getBotResponse(userMsg.text);
       const botMsg: Message = {
         id: (Date.now() + 1).toString(),
-        text: "Thanks for reaching out! Our team has received your message and will get back to you shortly. Is there anything else you'd like to know?",
+        text: responseText,
         sender: 'bot',
         timestamp: new Date()
       };
@@ -71,9 +99,26 @@ const AiAssistant: React.FC = () => {
         name: 'Guest User (AI Chat)',
         email: 'chat-guest@example.com',
         type: 'AI Chat',
-        message: userMsg.text
+        message: `User: ${userMsg.text}\nBot: ${responseText}`
       });
     }, 1000);
+  };
+
+  const renderMessageText = (text: string) => {
+    const parts = text.split(/(https?:\/\/[^\s]+)/g);
+    return parts.map((part, i) => 
+      part.match(/^https?:\/\//) ? 
+        <a 
+          key={i} 
+          href={part} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="underline text-blue-600 dark:text-blue-400 break-all"
+        >
+          {part}
+        </a> : 
+        part
+    );
   };
 
   return (
@@ -122,7 +167,7 @@ const AiAssistant: React.FC = () => {
                         : 'bg-white dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-100 dark:border-white/5'
                     }`}
                   >
-                    {msg.text}
+                    {renderMessageText(msg.text)}
                   </div>
                 </div>
               ))}
