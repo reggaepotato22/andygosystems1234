@@ -31,7 +31,7 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnquiry }) => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       id="home" 
-      className="relative min-h-screen flex flex-col pt-32 pb-0 overflow-hidden bg-white dark:bg-charcoal dim:bg-charcoal-light text-gray-900 dark:text-white transition-colors duration-500"
+      className="relative min-h-screen flex flex-col pt-24 md:pt-32 pb-0 overflow-hidden bg-white dark:bg-charcoal dim:bg-charcoal-light text-gray-900 dark:text-white transition-colors duration-500"
     >
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber/5 via-transparent to-transparent opacity-50 z-0" />
@@ -39,7 +39,7 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnquiry }) => {
       <div className="container mx-auto px-6 flex-1 flex flex-col lg:flex-row items-center relative z-10">
         
         {/* Left Content */}
-        <div className="w-full lg:w-1/2 mb-16 lg:mb-0 lg:pr-12">
+        <div className="w-full lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}

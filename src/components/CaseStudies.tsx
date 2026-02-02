@@ -72,7 +72,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ onProjectClick }) => {
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.5 }}
               onClick={() => onProjectClick(project)}
-              className={`group relative h-[500px] rounded-3xl overflow-hidden cursor-pointer ${
+              className={`group relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden cursor-pointer ${
                 index % 3 === 0 ? 'md:col-span-2' : ''
               }`}
             >
