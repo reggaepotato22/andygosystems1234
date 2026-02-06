@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center text-gray-600 dark:text-gray-400">
                 <Phone className="w-5 h-5 mr-3 text-amber" />
-                <span>+254 712 345 678</span>
+                <span>+254 --- --- ---</span>
               </div>
               <div className="flex items-center text-gray-600 dark:text-gray-400">
                 <MapPin className="w-5 h-5 mr-3 text-amber" />
