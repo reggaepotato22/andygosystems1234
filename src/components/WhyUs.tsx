@@ -29,7 +29,7 @@ const WhyUs: React.FC = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-charcoal dark:text-white">Why Choose AndyGO?</h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            We don't just write code; we engineer business outcomes.
+            We write code that helps your business grow.
           </p>
         </motion.div>
 
@@ -53,7 +53,7 @@ const WhyUs: React.FC = () => {
               <div>
                 <h3 className="text-3xl font-bold mb-4 text-charcoal dark:text-white">Our Vision</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
-                  To be the catalyst for digital transformation, empowering businesses to scale through intelligent, high-performance software systems that adapt to the future.
+                  To help businesses grow with smart, fast software that works for the future.
                 </p>
               </div>
             </div>
@@ -94,7 +94,7 @@ const WhyUs: React.FC = () => {
               <div>
                 <h3 className="text-2xl font-bold mb-3 text-charcoal dark:text-white">Methodology</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Agile-driven development with continuous integration, ensuring rapid delivery without compromising quality.
+                  We build fast and test often to make sure everything works perfectly.
                 </p>
               </div>
           </motion.div>
@@ -113,7 +113,7 @@ const WhyUs: React.FC = () => {
                   <div>
                     <h4 className="text-xl font-bold mb-2 text-charcoal dark:text-white">Our Mission</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      To empower businesses with scalable, high-performance technology that drives real-world impact.
+                      To give businesses strong technology that makes a difference.
                     </p>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ const WhyUs: React.FC = () => {
                   <div>
                     <h4 className="text-xl font-bold mb-2 text-charcoal dark:text-white">Core Values</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      Integrity, Innovation, and Excellence in every line of code we write.
+                      Honesty, new ideas, and quality in everything we do.
                     </p>
                   </div>
                 </div>

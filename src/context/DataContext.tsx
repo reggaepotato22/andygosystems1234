@@ -22,19 +22,52 @@ export interface Inquiry {
   status: 'new' | 'read' | 'contacted';
 }
 
+export interface Analytics {
+  totalVisits: number;
+  lastVisit: string;
+}
+
+export interface AiMessage {
+  id: string;
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: string;
+}
+
+export interface AiConversation {
+  id: string;
+  date: string;
+  messages: AiMessage[];
+}
+
 interface DataContextType {
   projects: Project[];
   inquiries: Inquiry[];
+  analytics: Analytics;
+  aiConversations: AiConversation[];
   addProject: (project: Omit<Project, 'id'>) => void;
   updateProject: (id: string, project: Partial<Project>) => void;
   deleteProject: (id: string) => void;
   addInquiry: (inquiry: Omit<Inquiry, 'id' | 'date' | 'status'>) => void;
   markInquiryAsRead: (id: string) => void;
+  recordVisit: () => void;
+  saveAiConversation: (conversation: AiConversation) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 const initialProjects: Project[] = [
+  {
+    id: '2',
+    title: "Krugerr Brendt International",
+    category: "Luxury Real Estate",
+    image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&q=80&w=2070", // Updated luxury home image
+    description: "Curating the World's Finest Properties. A premier platform for exclusive properties in Kenya and international locations.",
+    tags: ["React", "Tailwind CSS", "Framer Motion", "Real Estate"],
+    client: "Krugerr Brendt",
+    date: "February 2026",
+    liveUrl: "https://krugerr-brendt-updated.vercel.app/"
+  },
   {
     id: '1',
     title: "Veterinarians with a Mission Programme",
@@ -44,13 +77,13 @@ const initialProjects: Project[] = [
     tags: ["Vite", "TypeScript", "React", "shadcn-ui", "Tailwind CSS"],
     client: "Veterinarians with a Mission programme",
     date: "September 2025",
-    liveUrl: "https://kenyavetsemission.org"
+    liveUrl: "https://kenyavetsmission.org"
   }
 ];
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>(() => {
-    const saved = localStorage.getItem('andygo_projects_v2');
+    const saved = localStorage.getItem('andygo_projects_v5');
     return saved ? JSON.parse(saved) : initialProjects;
   });
 
@@ -59,13 +92,31 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [analytics, setAnalytics] = useState<Analytics>(() => {
+    const saved = localStorage.getItem('andygo_analytics');
+    return saved ? JSON.parse(saved) : { totalVisits: 0, lastVisit: new Date().toISOString() };
+  });
+
+  const [aiConversations, setAiConversations] = useState<AiConversation[]>(() => {
+    const saved = localStorage.getItem('andygo_ai_conversations');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   useEffect(() => {
-    localStorage.setItem('andygo_projects_v2', JSON.stringify(projects));
+    localStorage.setItem('andygo_projects_v5', JSON.stringify(projects));
   }, [projects]);
 
   useEffect(() => {
     localStorage.setItem('andygo_inquiries', JSON.stringify(inquiries));
   }, [inquiries]);
+
+  useEffect(() => {
+    localStorage.setItem('andygo_analytics', JSON.stringify(analytics));
+  }, [analytics]);
+
+  useEffect(() => {
+    localStorage.setItem('andygo_ai_conversations', JSON.stringify(aiConversations));
+  }, [aiConversations]);
 
   const addProject = (project: Omit<Project, 'id'>) => {
     const newProject = { ...project, id: Date.now().toString() };
@@ -94,15 +145,45 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setInquiries(prev => prev.map(i => i.id === id ? { ...i, status: 'read' } : i));
   };
 
+  const recordVisit = () => {
+    // Simple logic: record visit if last visit was more than 1 hour ago (simulated session)
+    // Or just increment for now for demo purposes
+    const now = new Date();
+    const last = new Date(analytics.lastVisit);
+    const diff = now.getTime() - last.getTime();
+    
+    // Only count as new visit if > 1 minute has passed (to prevent refresh spam)
+    if (diff > 60000 || analytics.totalVisits === 0) {
+      setAnalytics(prev => ({
+        totalVisits: prev.totalVisits + 1,
+        lastVisit: now.toISOString()
+      }));
+    }
+  };
+
+  const saveAiConversation = (conversation: AiConversation) => {
+    setAiConversations(prev => {
+      const exists = prev.find(c => c.id === conversation.id);
+      if (exists) {
+        return prev.map(c => c.id === conversation.id ? conversation : c);
+      }
+      return [conversation, ...prev];
+    });
+  };
+
   return (
     <DataContext.Provider value={{
       projects,
       inquiries,
+      analytics,
+      aiConversations,
       addProject,
       updateProject,
       deleteProject,
       addInquiry,
-      markInquiryAsRead
+      markInquiryAsRead,
+      recordVisit,
+      saveAiConversation
     }}>
       {children}
     </DataContext.Provider>

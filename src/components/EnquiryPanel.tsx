@@ -17,14 +17,40 @@ const EnquiryPanel: React.FC<EnquiryPanelProps> = ({ isOpen, onClose }) => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Save locally to Admin Dashboard
     addInquiry({
       name: formData.name,
       email: formData.email,
       type: formData.type || 'General',
       message: formData.message
     });
+
+    // Send email using FormSubmit (AJAX)
+    try {
+      await fetch("https://formsubmit.co/ajax/andygosystem@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          "Client Name": formData.name,
+          "Client Email": formData.email,
+          "Service Type": formData.type || 'General',
+          "Project Details": formData.message,
+          _subject: `New Inquiry: ${formData.type || 'Project'} from ${formData.name}`,
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+      // We don't block on success/fail to keep UI snappy, but in real app we might show a toast
+    } catch (error) {
+      console.error("Failed to send email", error);
+    }
+
     setFormData({ name: '', email: '', type: '', message: '' });
     onClose();
   };

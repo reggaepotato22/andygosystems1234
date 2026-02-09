@@ -2,7 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
-const Pricing: React.FC = () => {
+interface PricingProps {
+  onOpenEnquiry: () => void;
+}
+
+const Pricing: React.FC<PricingProps> = ({ onOpenEnquiry }) => {
   const plans = [
     {
       name: "Basic",
@@ -32,9 +36,9 @@ const Pricing: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <span className="text-amber font-mono text-sm tracking-widest uppercase mb-4 block">Pricing Plans</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-charcoal dark:text-white mb-4">Transparent Investment</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-charcoal dark:text-white mb-4">Available upon request</h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Choose the package that fits your current stage. No hidden fees, just high-quality engineering.
+            Choose the best plan for you. Contact us for a custom quote.
           </p>
         </div>
 
@@ -45,11 +49,12 @@ const Pricing: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
               transition={{ delay: index * 0.2 }}
               className={`relative p-8 rounded-3xl transition-all duration-300 ${
                 plan.popular 
-                  ? 'bg-charcoal dark:bg-white/5 dim:bg-white/10 border-2 border-amber shadow-2xl scale-105 z-10' 
-                  : 'bg-gray-50 dark:bg-white/5 dim:bg-white/10 border border-gray-200 dark:border-white/10 hover:border-amber/50'
+                  ? 'bg-charcoal dark:bg-white/5 dim:bg-white/10 border-2 border-amber shadow-2xl z-10' 
+                  : 'bg-gray-50 dark:bg-white/5 dim:bg-white/10 border border-gray-200 dark:border-white/10 hover:border-amber/50 hover:shadow-xl'
               }`}
             >
               {plan.popular && (
@@ -61,7 +66,7 @@ const Pricing: React.FC = () => {
               <h3 className={`text-2xl font-bold mb-2 ${plan.popular ? 'text-white' : 'text-charcoal dark:text-white'}`}>
                 {plan.name}
               </h3>
-              <div className="text-3xl font-bold text-amber mb-4">{plan.price}</div>
+              <div className="text-xl font-bold text-amber mb-4">Custom Quote</div>
               <p className="text-gray-500 dark:text-gray-400 mb-8">{plan.description}</p>
 
               <ul className="space-y-4 mb-8">
@@ -77,7 +82,9 @@ const Pricing: React.FC = () => {
                 ))}
               </ul>
 
-              <button className={`w-full py-4 rounded-xl font-bold transition-colors ${
+              <button 
+                onClick={onOpenEnquiry}
+                className={`w-full py-4 rounded-xl font-bold transition-colors ${
                 plan.popular
                   ? 'bg-amber text-charcoal hover:bg-white hover:text-charcoal'
                   : 'bg-white dark:bg-white/10 dim:bg-white/20 text-charcoal dark:text-white hover:bg-amber hover:text-charcoal border border-gray-200 dark:border-white/10'

@@ -50,14 +50,14 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnquiry }) => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber"></span>
               </span>
-              Available for new projects
+              Open for work
             </div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight mb-6 text-charcoal dark:text-white">
-              Engineering
+              Building
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber to-amber-dark relative">
-                Momentum
+                The Future
                 <motion.span 
                   className="absolute -right-4 top-2 h-[80%] w-1.5 bg-amber inline-block"
                   animate={{ opacity: [1, 0, 1] }}
@@ -67,7 +67,7 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnquiry }) => {
             </h1>
 
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-lg mb-8 leading-relaxed">
-              AndyGO Systems: Turning Complex Ideas into Seamless Motion. We build high-performance infrastructure for the future.
+              AndyGO Systems: We make your ideas real. Fast, simple, and built to last.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -75,13 +75,13 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnquiry }) => {
                 onClick={onOpenEnquiry}
                 className="px-8 py-4 bg-amber text-charcoal font-bold rounded-full text-lg hover:bg-charcoal hover:text-white dark:hover:bg-white dark:hover:text-charcoal transition-all duration-300 flex items-center gap-2 shadow-lg shadow-amber/20 hover:shadow-amber/40"
               >
-                Start Your Journey <ArrowRight className="w-5 h-5" />
+                Get Started <ArrowRight className="w-5 h-5" />
               </button>
               <a
                 href="#work"
                 className="px-8 py-4 bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white font-bold rounded-full text-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors duration-300"
               >
-                View Work
+                See Projects
               </a>
             </div>
           </motion.div>

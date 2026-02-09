@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useData, Project } from '../context/DataContext';
-import { LayoutDashboard, MessageSquare, Plus, Trash2, LogOut, X } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Plus, Trash2, LogOut, X, BarChart3, Bot, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { projects, inquiries, addProject, deleteProject, markInquiryAsRead } = useData();
-  const [activeTab, setActiveTab] = useState<'projects' | 'inquiries'>('projects');
+  const { projects, inquiries, analytics, aiConversations, addProject, deleteProject, markInquiryAsRead } = useData();
+  const [activeTab, setActiveTab] = useState<'analytics' | 'projects' | 'inquiries' | 'ai-chats'>('analytics');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
 
   // New Project Form State
   const [newProject, setNewProject] = useState<Omit<Project, 'id'>>({
@@ -74,6 +75,17 @@ const AdminDashboard: React.FC = () => {
 
         <nav className="space-y-4">
           <button
+            onClick={() => setActiveTab('analytics')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+              activeTab === 'analytics'
+                ? 'bg-amber text-charcoal font-bold'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+            }`}
+          >
+            <BarChart3 className="w-5 h-5" />
+            Analytics
+          </button>
+          <button
             onClick={() => setActiveTab('projects')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
               activeTab === 'projects'
@@ -100,6 +112,17 @@ const AdminDashboard: React.FC = () => {
               </span>
             )}
           </button>
+          <button
+            onClick={() => setActiveTab('ai-chats')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+              activeTab === 'ai-chats'
+                ? 'bg-amber text-charcoal font-bold'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+            }`}
+          >
+            <Bot className="w-5 h-5" />
+            AI Chats
+          </button>
         </nav>
 
         <button
@@ -113,7 +136,54 @@ const AdminDashboard: React.FC = () => {
 
       {/* Main Content */}
       <div className="ml-64 p-8">
-        {activeTab === 'projects' ? (
+        {activeTab === 'analytics' && (
+          <div>
+            <h2 className="text-3xl font-bold mb-8">Dashboard Overview</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border border-gray-200 dark:border-white/5">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-amber/20 rounded-xl text-amber">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-bold text-gray-500 dark:text-gray-400">Total Visits</h3>
+                </div>
+                <p className="text-4xl font-bold">{analytics.totalVisits}</p>
+                <p className="text-sm text-gray-400 mt-2">All time website visits</p>
+              </div>
+
+              <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border border-gray-200 dark:border-white/5">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-blue-500/20 rounded-xl text-blue-500">
+                    <Bot className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-bold text-gray-500 dark:text-gray-400">AI Conversations</h3>
+                </div>
+                <p className="text-4xl font-bold">{aiConversations.length}</p>
+                <p className="text-sm text-gray-400 mt-2">Total active chat sessions</p>
+              </div>
+
+              <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border border-gray-200 dark:border-white/5">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-green-500/20 rounded-xl text-green-500">
+                    <MessageSquare className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-bold text-gray-500 dark:text-gray-400">Total Inquiries</h3>
+                </div>
+                <p className="text-4xl font-bold">{inquiries.length}</p>
+                <p className="text-sm text-gray-400 mt-2">Messages received</p>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border border-gray-200 dark:border-white/5">
+              <h3 className="font-bold text-xl mb-4">Last Visit</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {new Date(analytics.lastVisit).toLocaleString()}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'projects' && (
           <div>
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">Manage Projects</h2>
@@ -149,7 +219,9 @@ const AdminDashboard: React.FC = () => {
               ))}
             </div>
           </div>
-        ) : (
+        )}
+        
+        {activeTab === 'inquiries' && (
           <div>
             <h2 className="text-3xl font-bold mb-8">Inquiries</h2>
             <div className="space-y-4">
@@ -186,6 +258,90 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 ))
               )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'ai-chats' && (
+          <div>
+            <h2 className="text-3xl font-bold mb-8">AI Conversations</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Chat List */}
+              <div className="lg:col-span-1 space-y-4">
+                {aiConversations.length === 0 ? (
+                  <p className="text-gray-500">No conversations yet.</p>
+                ) : (
+                  aiConversations.map((chat) => (
+                    <div
+                      key={chat.id}
+                      onClick={() => setSelectedConversation(chat.id)}
+                      className={`p-4 rounded-xl cursor-pointer border transition-colors ${
+                        selectedConversation === chat.id
+                          ? 'bg-amber text-charcoal border-amber'
+                          : 'bg-white dark:bg-white/5 border-gray-200 dark:border-white/5 hover:border-amber/50'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-bold text-sm">Guest User</span>
+                        <span className="text-xs opacity-60">
+                          {new Date(chat.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="text-xs opacity-80 line-clamp-2">
+                        {chat.messages[chat.messages.length - 1]?.text || 'No messages'}
+                      </p>
+                      <div className="mt-2 flex items-center gap-2 text-xs opacity-60">
+                        <MessageSquare className="w-3 h-3" />
+                        {chat.messages.length} messages
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Chat View */}
+              <div className="lg:col-span-2">
+                {selectedConversation ? (
+                  <div className="bg-white dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/5 overflow-hidden flex flex-col h-[600px]">
+                    <div className="p-4 border-b border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5">
+                      <h3 className="font-bold">Conversation History</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        ID: {selectedConversation}
+                      </p>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                      {aiConversations
+                        .find(c => c.id === selectedConversation)
+                        ?.messages.map((msg, idx) => (
+                          <div
+                            key={idx}
+                            className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                          >
+                            <div
+                              className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                                msg.sender === 'user'
+                                  ? 'bg-amber text-charcoal rounded-tr-none'
+                                  : 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-tl-none'
+                              }`}
+                            >
+                              <p>{msg.text}</p>
+                              <p className="text-[10px] mt-1 opacity-50 text-right">
+                                {new Date(msg.timestamp).toLocaleTimeString()}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-[600px] flex items-center justify-center bg-white dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/5 text-gray-400">
+                    <div className="text-center">
+                      <Bot className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                      <p>Select a conversation to view details</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

@@ -26,19 +26,19 @@ const Expertise: React.FC<ExpertiseProps> = ({ onOpenEnquiry }) => {
     {
       title: "Custom Web Apps",
       icon: Layout,
-      description: "High-performance SPAs and PFAs built with React and Vite. We create fluid, responsive interfaces that drive engagement.",
+      description: "Fast websites and apps built with React. We make them look good and work smoothly on all devices.",
       tech: ["React", "Vite", "TypeScript", "Tailwind"]
     },
     {
-      title: "Backend Architecture",
+      title: "Backend Systems",
       icon: Server,
-      description: "Scalable APIs and microservices. We build secure, efficient server-side systems using Node.js and Python.",
+      description: "Strong server-side systems. We build secure and efficient APIs using Node.js and Python.",
       tech: ["Node.js", "Python", "PostgreSQL", "Redis"]
     },
     {
-      title: "Cloud Systems",
+      title: "Cloud Solutions",
       icon: Cloud,
-      description: "Cloud-native infrastructure designed for reliability and scale. Automated deployment pipelines and serverless solutions.",
+      description: "Reliable cloud setup. We handle hosting, automation, and scaling so you don't have to.",
       tech: ["AWS", "Docker", "CI/CD", "Terraform"]
     }
   ];

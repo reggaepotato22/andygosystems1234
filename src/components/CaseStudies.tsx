@@ -11,7 +11,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ onProjectClick }) => {
   const { projects } = useData();
   const [activeCategory, setActiveCategory] = React.useState('All');
 
-  const categories = ['All', 'Apps', 'Websites', 'Web Applications', 'UI/UX', 'Others'];
+  const categories = ['All', 'Web Applications', 'Luxury Real Estate', 'Websites', 'Apps', 'UI/UX'];
 
   const filteredProjects = activeCategory === 'All' 
     ? projects 
@@ -34,7 +34,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({ onProjectClick }) => {
               whileInView={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl font-bold mb-4 text-charcoal dark:text-white"
             >
-              Engineering Excellence
+              Our Best Work
             </motion.h2>
           </div>
           <a href="#" className="hidden md:flex items-center text-gray-600 dark:text-white/70 hover:text-amber dark:hover:text-amber transition-colors mt-4 md:mt-0 group">

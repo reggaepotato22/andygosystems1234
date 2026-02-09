@@ -6,6 +6,7 @@ import { DataProvider } from './context/DataContext';
 import { LoadingProvider } from './context/LoadingContext';
 import GoLoader from './components/GoLoader';
 import AiAssistant from './components/AiAssistant';
+import BackToTop from './components/BackToTop';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
           <AiAssistant />
+          <BackToTop />
         </Router>
       </LoadingProvider>
     </DataProvider>

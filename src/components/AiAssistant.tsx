@@ -23,7 +23,22 @@ const AiAssistant: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { addInquiry } = useData();
+  const { saveAiConversation } = useData();
+  const [conversationId] = useState(() => Date.now().toString());
+
+  // Sync messages to admin dashboard
+  useEffect(() => {
+    if (messages.length > 1) { // Only save if there's interaction beyond the greeting
+      saveAiConversation({
+        id: conversationId,
+        date: new Date().toISOString(),
+        messages: messages.map(msg => ({
+          ...msg,
+          timestamp: msg.timestamp.toISOString()
+        }))
+      });
+    }
+  }, [messages, conversationId, saveAiConversation]);
 
   // 30-second auto-open timer
   useEffect(() => {
@@ -93,14 +108,6 @@ const AiAssistant: React.FC = () => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMsg]);
-      
-      // Save to admin dashboard
-      addInquiry({
-        name: 'Guest User (AI Chat)',
-        email: 'chat-guest@example.com',
-        type: 'AI Chat',
-        message: `User: ${userMsg.text}\nBot: ${responseText}`
-      });
     }, 1000);
   };
 

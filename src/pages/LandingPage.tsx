@@ -10,8 +10,11 @@ import CaseStudyDetail from '../components/CaseStudyDetail';
 import Footer from '../components/Footer';
 import BackgroundEffect from '../components/BackgroundEffect';
 import EnquiryPanel from '../components/EnquiryPanel';
+import { useData } from '../context/DataContext';
 
 const LandingPage: React.FC = () => {
+  const { recordVisit } = useData();
+
   // Initialize theme from system preference or default to light
   const [theme, setTheme] = useState<Theme>(() => {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -19,6 +22,10 @@ const LandingPage: React.FC = () => {
     }
     return 'light';
   });
+
+  useEffect(() => {
+    recordVisit();
+  }, [recordVisit]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -63,7 +70,7 @@ const LandingPage: React.FC = () => {
         <Hero onOpenEnquiry={() => setIsEnquiryOpen(true)} />
         <WhyUs />
         <Expertise onOpenEnquiry={() => setIsEnquiryOpen(true)} />
-        <Pricing />
+        <Pricing onOpenEnquiry={() => setIsEnquiryOpen(true)} />
         <CaseStudies onProjectClick={handleProjectClick} />
         <Workflow />
       </main>
